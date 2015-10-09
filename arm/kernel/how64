@@ -1,0 +1,15 @@
+#https://balau82.wordpress.com/2012/03/31/compile-linux-kernel-3-2-for-arm-and-emulate-with-qemu/
+
+TPATH=$PATH
+
+PATH=~/apps/arm_gcc/gcc/bin:$PATH
+
+export ARCH=arm64
+export CROSS_COMPILE=aarch64-linux-
+
+make defconfig
+make all
+
+export PATH=$TPATH
+export ARCH=
+export CROSS_COMPILE=
