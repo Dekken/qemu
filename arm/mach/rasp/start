@@ -1,5 +1,5 @@
-#https://gist.github.com/bdsatish/7476239
-qemu-system-arm -m 512 -hda rpi-basic-image-raspberrypi2-20150227091441.rootfs.rpi-sdimg -M vexpress-a9 -cpu cortex-a9 -kernel vmlinuz-3.2.0-4-vexpress -initrd initrd.gz -append "root=/dev/sda" 
+# RASPBERRY PI ARM1176 SOFT FLOAT
+# https://gist.github.com/bdsatish/7476239
+# http://ftp.debian.org/debian/dists/jessie/main/installer-armel/current/images/versatile/netboot/
 
-
-#qemu-system-arm -m 512 -cdrom rpi-basic-image-raspberrypi2-20150227091441.rootfs.rpi-sdimg -hdd rasp2.img -M vexpress-a9 -cpu cortex-a9 -kernel vmlinuz-3.2.0-4-vexpress -initrd initrd.gz -append "root=/dev/sda"
+qemu-system-arm -M versatilepb -m 256M -kernel post/vmlinuz -initrd post/initrd.img -hda raspdisk.img -append "root=/dev/sda1" 

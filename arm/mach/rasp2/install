@@ -1,0 +1,24 @@
+# RASPBERRY PI ARMv7 HARD FLOAT
+# https://gist.github.com/bdsatish/7476239
+# http://ftp.debian.org/debian/dists/jessie/main/installer-armhf/current/images/netboot/
+
+mkdir -p pre
+cd pre
+wget http://ftp.debian.org/debian/dists/wheezy/main/installer-armhf/current/images/vexpress/netboot/initrd.gz
+wget http://ftp.debian.org/debian/dists/wheezy/main/installer-armhf/current/images/vexpress/netboot/vmlinuz-3.2.0-4-vexpress
+cd ..
+
+qemu-img create -f qcow2  raspdisk.img 8G
+qemu-system-arm -M vexpress-a9 -hda raspdisk.img -kernel pre/vmlinuz-3.2.0-4-vexpress -initrd pre/initrd.gz -m 1024 -append "root=/dev/ram"
+
+mkdir -p qemu-mounted
+sudo modprobe nbd max_part=16
+sudo qemu-nbd -c /dev/nbd0 raspdisk.img
+sudo mount /dev/nbd0p1 qemu-mounted
+
+mkdir -p post
+cp qemu-mounted/boot/* post
+
+sudo umount qemu-mounted
+sudo qemu-nbd -d /dev/nbd0
+sudo killall qemu-nbd

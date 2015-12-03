@@ -1,1 +1,5 @@
-qemu-system-arm -m 1024 -sd armhf.img -M vexpress-a9 -cpu cortex-a9 -kernel vmlinuz-3.2.0-4-vexpress -initrd initrd.img-3.2.0-4-vexpress -append "root=/dev/mmcblk0p2" --no-reboot
+# RASPBERRY PI ARMv7 HARD FLOAT
+# https://gist.github.com/bdsatish/7476239
+# http://ftp.debian.org/debian/dists/jessie/main/installer-armhf/current/images/netboot/
+
+qemu-system-arm -m 1024 -sd raspdisk.img -M vexpress-a9 -cpu cortex-a9 -kernel post/vmlinuz -initrd post/initrd.img -append "root=/dev/mmcblk0p2" --no-reboot
