@@ -9,7 +9,7 @@ wget http://ftp.debian.org/debian/dists/wheezy/main/installer-armhf/current/imag
 cd ..
 
 qemu-img create -f qcow2  raspdisk.img 8G
-qemu-system-arm -M vexpress-a9 -hda raspdisk.img -kernel pre/vmlinuz-3.2.0-4-vexpress -initrd pre/initrd.gz -m 1024 -append "root=/dev/ram"
+qemu-system-arm -M vexpress-a9 -cpu cortex-a9 -sd raspdisk.img -kernel pre/vmlinuz-3.2.0-4-vexpress -initrd pre/initrd.gz -m 1024 -append "root=/dev/ram"
 
 mkdir -p qemu-mounted
 sudo modprobe nbd max_part=16
@@ -17,8 +17,30 @@ sudo qemu-nbd -c /dev/nbd0 raspdisk.img
 sudo mount /dev/nbd0p1 qemu-mounted
 
 mkdir -p post
-cp qemu-mounted/boot/* post
+cp qemu-mounted/* post
 
 sudo umount qemu-mounted
 sudo qemu-nbd -d /dev/nbd0
 sudo killall qemu-nbd
+
+
+
+
+
+# WARNING 					#
+# MOUNTING FILESYSTEM!" 	#
+# ROOT = 2 / HOME = 6		# Check in VM with df etc.
+mkdir -p qemu-mounted
+sudo modprobe nbd max_part=16
+sudo qemu-nbd -c /dev/nbd0 raspdisk.img
+sudo mount /dev/nbd0p2 qemu-mounted
+
+sudo umount qemu-mounted
+sudo qemu-nbd -d /dev/nbd0
+sudo killall qemu-nbd
+
+
+
+# UPDATE FROM WHEEZY TO JESSIE
+
+http://linuxconfig.org/how-to-upgrade-debian-linux-system-from-wheezy-to-jessie-stable-release
